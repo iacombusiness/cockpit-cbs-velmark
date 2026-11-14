@@ -1,0 +1,322 @@
+/*
+ * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
+ * - Keep every @import in this top block, above @theme and the rest of the file. Install an
+ *   npm package before @importing its CSS. Never @import a remote URL (web fonts, CDN CSS): the
+ *   build resolves @import from the filesystem. Load those with a <link> in the head() of
+ *   src/routes/__root.tsx and name the family in a --font-* token in @theme inline below.
+ */
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The design lives in this file: oklch color tokens on the shadcn variables
+ * (--background, --foreground, --primary, --secondary, --muted, --accent, ...) plus
+ * new tokens as needed, font tokens, and custom styles and animations.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --font-sans:
+    "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display:
+    "IBM Plex Sans Condensed", "Arial Narrow", "Roboto Condensed", ui-sans-serif, system-ui,
+    sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  /* Tokens próprios do cockpit CBS */
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule-2: var(--rule-2);
+  --color-s1: var(--s1);
+  --color-s2: var(--s2);
+  --color-good: var(--good);
+  --color-warn: var(--warn);
+  --color-serious: var(--serious);
+  --color-crit: var(--crit);
+  --color-crit-soft: var(--crit-soft);
+  --color-warn-soft: var(--warn-soft);
+  --color-good-soft: var(--good-soft);
+  --color-info-soft: var(--info-soft);
+}
+
+/*
+ * Paleta "mesa fiscal": cinza frio levemente esverdeado, tinta verde-escura, petróleo como
+ * acento de navegação/ação. Séries de gráfico (s1 azul, s2 laranja) validadas para daltonismo
+ * e contraste nos dois temas. Cores de estado (good/warn/serious/crit) nunca viram série.
+ */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(0.968 0.003 145.5);
+  --foreground: oklch(0.23 0.022 158.5);
+  --card: oklch(0.991 0 0);
+  --card-foreground: oklch(0.23 0.022 158.5);
+  --popover: oklch(0.991 0 0);
+  --popover-foreground: oklch(0.23 0.022 158.5);
+  --primary: oklch(0.439 0.073 187.1);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.908 0.007 160.1);
+  --secondary-foreground: oklch(0.23 0.022 158.5);
+  --muted: oklch(0.968 0.003 145.5);
+  --muted-foreground: oklch(0.606 0.015 166.9);
+  --accent: oklch(0.928 0.016 182.7);
+  --accent-foreground: oklch(0.23 0.022 158.5);
+  --destructive: oklch(0.575 0.186 25.2);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.908 0.007 160.1);
+  --input: oklch(0.851 0.009 161.3);
+  --ring: oklch(0.439 0.073 187.1);
+  --chart-1: oklch(0.575 0.163 255.5);
+  --chart-2: oklch(0.671 0.175 40.6);
+  --chart-3: oklch(0.606 0.015 166.9);
+  --chart-4: oklch(0.811 0.164 78.5);
+  --chart-5: oklch(0.439 0.073 187.1);
+  --sidebar: oklch(0.968 0.003 145.5);
+  --sidebar-foreground: oklch(0.442 0.016 166.5);
+  --sidebar-primary: oklch(0.439 0.073 187.1);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.991 0 0);
+  --sidebar-accent-foreground: oklch(0.23 0.022 158.5);
+  --sidebar-border: oklch(0.908 0.007 160.1);
+  --sidebar-ring: oklch(0.439 0.073 187.1);
+  --ink-2: oklch(0.442 0.016 166.5);
+  --ink-3: oklch(0.606 0.015 166.9);
+  --rule-2: oklch(0.851 0.009 161.3);
+  --s1: oklch(0.575 0.163 255.5);
+  --s2: oklch(0.671 0.175 40.6);
+  --good: oklch(0.621 0.207 142.6);
+  --warn: oklch(0.811 0.164 78.5);
+  --serious: oklch(0.717 0.141 41.6);
+  --crit: oklch(0.575 0.186 25.2);
+  --crit-soft: oklch(0.943 0.022 24.4);
+  --warn-soft: oklch(0.961 0.038 86.9);
+  --good-soft: oklch(0.946 0.031 145.3);
+  --info-soft: oklch(0.942 0.019 252.9);
+}
+
+.dark {
+  --background: oklch(0.194 0.009 169.3);
+  --foreground: oklch(0.939 0.006 170.4);
+  --card: oklch(0.229 0.008 169.5);
+  --card-foreground: oklch(0.939 0.006 170.4);
+  --popover: oklch(0.229 0.008 169.5);
+  --popover-foreground: oklch(0.939 0.006 170.4);
+  --primary: oklch(0.725 0.092 185.4);
+  --primary-foreground: oklch(0.223 0.025 182);
+  --secondary: oklch(0.309 0.012 178.8);
+  --secondary-foreground: oklch(0.939 0.006 170.4);
+  --muted: oklch(0.194 0.009 169.3);
+  --muted-foreground: oklch(0.647 0.013 170);
+  --accent: oklch(0.3 0.031 185.6);
+  --accent-foreground: oklch(0.939 0.006 170.4);
+  --destructive: oklch(0.575 0.186 25.2);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.309 0.012 178.8);
+  --input: oklch(0.377 0.014 175.5);
+  --ring: oklch(0.725 0.092 185.4);
+  --chart-1: oklch(0.622 0.161 255.1);
+  --chart-2: oklch(0.622 0.173 40.1);
+  --chart-3: oklch(0.647 0.013 170);
+  --chart-4: oklch(0.811 0.164 78.5);
+  --chart-5: oklch(0.725 0.092 185.4);
+  --sidebar: oklch(0.194 0.009 169.3);
+  --sidebar-foreground: oklch(0.783 0.012 170.2);
+  --sidebar-primary: oklch(0.725 0.092 185.4);
+  --sidebar-primary-foreground: oklch(0.223 0.025 182);
+  --sidebar-accent: oklch(0.229 0.008 169.5);
+  --sidebar-accent-foreground: oklch(0.939 0.006 170.4);
+  --sidebar-border: oklch(0.309 0.012 178.8);
+  --sidebar-ring: oklch(0.725 0.092 185.4);
+  --ink-2: oklch(0.783 0.012 170.2);
+  --ink-3: oklch(0.647 0.013 170);
+  --rule-2: oklch(0.377 0.014 175.5);
+  --s1: oklch(0.622 0.161 255.1);
+  --s2: oklch(0.622 0.173 40.1);
+  --crit-soft: oklch(0.275 0.042 22.5);
+  --warn-soft: oklch(0.314 0.039 86.7);
+  --good-soft: oklch(0.295 0.046 149.6);
+  --info-soft: oklch(0.281 0.041 254.8);
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+}
+
+/* ---------- peças do cockpit ---------- */
+@layer components {
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 600;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stamp {
+    display: inline-grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1;
+    border: 2px solid var(--foreground);
+    border-radius: 6px;
+    padding: 8px 12px 6px;
+    transform: rotate(-1.5deg);
+    letter-spacing: 0.02em;
+  }
+
+  .chave-seg {
+    padding: 0 1px 2px;
+    border-bottom: 2px solid var(--rule-2);
+  }
+
+  .chave-seg:nth-child(odd) {
+    border-bottom-color: var(--ink-3);
+  }
+
+  .chave-seg[data-destaque="true"] {
+    border-bottom-color: var(--primary);
+    color: var(--foreground);
+    font-weight: 500;
+  }
+
+  .json-k {
+    color: var(--foreground);
+  }
+
+  .json-n {
+    color: var(--s1);
+  }
+}
+
+/* Gráficos SVG desenhados à mão: escala única, marcas finas, grade recessiva */
+.cbs-chart {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.cbs-chart .grade line {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+.cbs-chart .eixo text,
+.cbs-chart .rotulo {
+  fill: var(--ink-3);
+  font-size: 11px;
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+.cbs-chart .rotulo.forte {
+  fill: var(--foreground);
+  font-weight: 600;
+}
+.cbs-chart .s1 {
+  fill: var(--s1);
+}
+.cbs-chart .s2 {
+  fill: var(--s2);
+}
+.cbs-chart .faixa-sel {
+  fill: var(--accent);
+}
+.cbs-chart .mira {
+  fill: transparent;
+}
+.cbs-chart .mira[data-clicavel="true"] {
+  cursor: pointer;
+}
+.cbs-chart .mira:focus-visible {
+  outline: 2px solid var(--ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
