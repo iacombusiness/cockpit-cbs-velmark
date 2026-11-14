@@ -7,7 +7,12 @@
 // servidor de aplicação. A saída fica em .output/public.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// Caminho onde o site fica no ar. Padrão: a raiz. Para publicar num subcaminho (na VPS, /cockpit-cbs/):
+//   CAMINHO_BASE=/cockpit-cbs/ bun run build
+const base = process.env["CAMINHO_BASE"] ?? "/";
+
 export default defineConfig({
+  vite: { base },
   tanstackStart: {
     spa: { enabled: true },
     server: { entry: "server" },

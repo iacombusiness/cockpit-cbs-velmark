@@ -8,6 +8,8 @@ export const getRouter = () => {
 
   const router = createRouter({
     routeTree,
+    // Mesmo caminho do build (vite base), para o site funcionar também num subcaminho.
+    basepath: import.meta.env.BASE_URL,
     context: { queryClient },
     scrollRestoration: true,
     // Lets Query own freshness; set caching defaults on the QueryClient, not the router.

@@ -24,12 +24,25 @@ node node_modules/typescript/bin/tsc --noEmit -p tsconfig.json
 
 ## Publicar
 
-O build é um site estático para a **raiz** de um endereço (os arquivos usam caminhos `/assets/...`).
-Qualquer servidor de arquivos serve, desde que devolva `_shell.html` para as rotas da aplicação
-(`/periodo`, `/creditos`, `/saidas`, `/saude`). No Caddy:
+O build é um site estático. Por padrão ele vai na **raiz** de um endereço (arquivos em `/assets/...`).
+Para um subcaminho, informe o caminho no build: `CAMINHO_BASE=/cockpit-cbs/ bun run build` (o Vite e o
+roteador passam a usar o mesmo prefixo). Qualquer servidor de arquivos serve, desde que devolva
+`_shell.html` para as rotas da aplicação (`/periodo`, `/creditos`, `/saidas`, `/saude`). No Caddy, na raiz:
 
 ```
 root * /caminho/para/.output/public
 try_files {path} /_shell.html
 file_server
+```
+
+Num subcaminho (é assim na VPS, em `/cockpit-cbs/`, pelo roteiro `27-cockpit-cbs.sh` do repositório
+`agentes`):
+
+```
+redir /cockpit-cbs /cockpit-cbs/ 308
+handle_path /cockpit-cbs/* {
+	root * /caminho/para/.output/public
+	try_files {path} /_shell.html
+	file_server
+}
 ```
